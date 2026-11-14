@@ -1,11 +1,24 @@
-# Keryx feed
+# Keryx Podcast Feed
 
-Self-hosted RSS feed for **Keryx**, the daily AI and tech news podcast with
-Aleksa & Juno. New episodes every morning, 8–10 minutes.
+The RSS publishing repository for **Keryx**, an AI and technology news podcast with Aleksa and Juno. This repository contains feed metadata, not the audio-generation or editorial pipeline.
 
-Subscribe: `https://aleksagavric.github.io/keryx-feed/feed.xml`
-(paste into Apple Podcasts via Library → Add a Show by URL, or any podcast app)
+## Subscribe
 
-The audio and cover art are hosted on Muse's podcast CDN; this repo only holds
-the RSS file. `feed.xml` is regenerated automatically each morning after the
-new episode publishes — see `regen-feed.py` in Juno's workspace, not here.
+[RSS feed](https://aleksagavric.github.io/keryx-feed/feed.xml)
+
+Paste the feed URL into a podcast app that supports adding a show by URL. Audio and cover artwork are hosted separately on Muse's podcast CDN.
+
+## Repository contents
+
+- `feed.xml` — channel metadata and published episode entries.
+- `README.md` — feed scope and local validation instructions.
+
+An external publishing workflow updates the feed; its implementation is not included here. Publication cadence and CDN availability depend on that separate system.
+
+## Validate XML locally
+
+```sh
+python3 -c 'import xml.etree.ElementTree as ET; root = ET.parse("feed.xml").getroot(); assert root.tag == "rss"; assert root.find("channel") is not None; print("RSS XML parsed")'
+```
+
+This checks XML structure, not complete podcast-platform compliance or remote enclosure availability. Keep existing episode GUIDs stable when editing entries to avoid duplicate downloads for subscribers.
